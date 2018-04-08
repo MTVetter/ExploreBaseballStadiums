@@ -25,7 +25,45 @@
 		place these within <script> or <style> tags-->
 		<div id="wrapper">
 			<div id="map"></div>
-			<div id="panel">panel</div>
+			<div id="panel">
+				<table id="info">
+					<tbody>
+						<tr>
+							<td id="stadium"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<table id="stats">
+					<tbody>
+						<tr>
+							<th id="left">Team:</th>
+							<td id="team"></td>
+						</tr>
+						<tr>
+							<th id="left">Built in:</th>
+							<td id="year"></td>
+						</tr>
+						<tr>
+							<th id="left">Avg Attendence per Game:</th>
+							<td id="attendence"></td>
+						</tr>
+						<tr>
+							<th id="left">Avg Time of Game:</th>
+							<td id="time"></td>
+						</tr>
+						<tr>
+							<th id="left">Avg Home Runs per Game:</th>
+							<td id="hr"></td>
+						</tr>
+						<tr>
+							<th id="left">Avg Ticket Price:</th>
+							<td id="ticket"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="graph"></div>
+			</div>
 		</div>
 		<!--put your external script links here-->
 		<script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
@@ -35,6 +73,8 @@
 		<script type="text/javascript" src="js/leaflet.zoomhome.min.js"></script>
 		<script type="text/javascript" src="js/leaflet-tag-filter-button.js"></script>
 		<script type="text/javascript" src="js/leaflet.markercluster-src.js"></script>
+		<script type="text/javascript" src="lib/d3.js"></script>
+		<script type="text/javascript" src="lib/d3-queue.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>

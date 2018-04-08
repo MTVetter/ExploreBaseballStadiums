@@ -2,6 +2,9 @@
 
 //Add Leaflet map
 function createMap(){
+    //Hide the panel div until a point is clicked
+    // $('#panel').hide();
+
     //Set up the initial location of the map
     var initialLocation = [40, -98.5];
 
@@ -131,6 +134,26 @@ function getData(map){
                             iconUrl: getIcon(feature.properties.Team),
                             iconSize: [45, 45]
                         })
+                    });
+                },
+                onEachFeature: function (feature, layer){
+                    layer.on('click', function(e){
+                        document.getElementById("stadium").innerHTML = feature.properties.StadiumName;
+                        document.getElementById("team").innerHTML = feature.properties.Team;
+                        document.getElementById("year").innerHTML = feature.properties.Built;
+                        document.getElementById("attendence").innerHTML = feature.properties.AttenanceperGame;
+                        document.getElementById("time").innerHTML = feature.properties.Time;
+                        document.getElementById("hr").innerHTML = feature.properties.HRperGame;
+                        document.getElementById("ticket").innerHTML = feature.properties.TicketPrice;
+                        var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
+                        var svg = d3.select(div)
+                            .select("svg")
+                            .attr("width", 200)
+                            .attr("height", 200);
+                        svg.append("rect")
+                            .attr("width", 150)
+                            .attr("height", 150)
+                            .style("fill", "lightBlue");
                     });
                 }
             }).addTo(map);

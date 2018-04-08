@@ -18,6 +18,24 @@ body{
     background-color: green;
     flex: 1 1 auto;
 }
+#info{
+    padding-top: 100px;
+    width: 90%;
+}
+#stadium{
+    font-family: 'Times New Roman';
+    text-align: center;
+    font-weight: bold;
+}
+#left{
+    width: 90%;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+}
+#graph{
+    width: 300px;
+    height: 200px;
+}
 @media screen and (max-width: 768px){
     #wrapper{
         flex-direction: column;
