@@ -120,6 +120,7 @@ function getIcon(team){
     }
 };
 
+
 //function to get the points
 function getData(map){
     //Load the data through AJAX
@@ -145,6 +146,7 @@ function getData(map){
                         document.getElementById("time").innerHTML = feature.properties.Time;
                         document.getElementById("hr").innerHTML = feature.properties.HRperGame;
                         document.getElementById("ticket").innerHTML = feature.properties.TicketPrice;
+                        document.getElementById("pic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
                         var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
                         var svg = d3.select(div)
                             .select("svg")
