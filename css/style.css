@@ -41,6 +41,14 @@ body{
     height: 200px;
     background-color: azure;
 }
+.button{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+.button:hover{
+    background-color: darkviolet;
+    color: white;
+}
 @media screen and (max-width: 768px){
     #wrapper{
         flex-direction: column;

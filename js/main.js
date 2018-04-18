@@ -49,10 +49,9 @@ function createMap(){
     "<p><a href='data/ChaseDeposits.csv' download>Click to download data source</a></p>");
     
     //Create an info button so the user can get information about the map
-    L.easyButton('<span class="fas fa-info fa-lg"</span>', function(btn, map){
+    L.easyButton('<span class="fas fa-filter fa-lg"</span>', function(btn, map){
         infoPopup.setLatLng(map.getCenter()).openOn(map);
     }).addTo(map);
-
 };
 
 //Function to determine the appropriate icon
@@ -138,29 +137,55 @@ function getData(map){
                     });
                 },
                 onEachFeature: function (feature, layer){
+                    layer.bindPopup(createPopup(feature));
                     layer.on('click', function(e){
-                        document.getElementById("stadium").innerHTML = feature.properties.StadiumName;
-                        document.getElementById("team").innerHTML = feature.properties.Team;
-                        document.getElementById("year").innerHTML = feature.properties.Built;
-                        document.getElementById("attendence").innerHTML = feature.properties.AttenanceperGame;
-                        document.getElementById("time").innerHTML = feature.properties.Time;
-                        document.getElementById("hr").innerHTML = feature.properties.HRperGame;
-                        document.getElementById("ticket").innerHTML = feature.properties.TicketPrice;
+                        $("#panel").show("slide");
+                        $("#stadium").text(feature.properties.StadiumName);
+                        $("#team").text(feature.properties.Team);
+                        $("#year").text(feature.properties.Built);
+                        $("#attendence").text(feature.properties.AttenanceperGame);
+                        $("#time").text(feature.properties.Time);
+                        $("#hr").text(feature.properties.HRperGame);
+                        $("#ticket").text(feature.properties.TicketPrice);
                         document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
-                        var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
-                        var svg = d3.select(div)
-                            .select("svg")
-                            .attr("width", 200)
-                            .attr("height", 200);
-                        svg.append("rect")
-                            .attr("width", 150)
-                            .attr("height", 150)
-                            .style("fill", "lightBlue");
+                        // var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
+                        // var svg = d3.select(div)
+                        //     .select("svg")
+                        //     .attr("width", 200)
+                        //     .attr("height", 200);
+                        // svg.append("rect")
+                        //     .attr("width", 150)
+                        //     .attr("height", 150)
+                        //     .style("fill", "lightBlue");
                     });
                 }
             }).addTo(map);
         }
     });
 };
+
+function createPopup(feature){
+    //Function to create the graph in the popup
+    var prop = feature.properties.StadiumName;
+    var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
+    console.log(prop);
+    var popup = L.popup().setContent(this.div);
+    // layer.bindPopup(popup);
+    var data = [
+        {name:feature.properties.Team, value:feature.properties.TicketPrice}
+    ];
+    var margin = {top: 20, right: 30, bottom: 40, left: 55},
+        width = 250 - margin.left - margin.right,
+        height = 200 - margin.top - margin.bottom,
+        barHeight = height;
+};
+
+//Hide the panel on initial loading of the application
+$("#panel").hide();
+
+//Close the panel after user is done looking at the information
+$(".button").on("click", function(e){
+    $("#panel").hide("slide");
+});
 
 $(document).ready(createMap);
