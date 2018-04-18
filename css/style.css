@@ -36,6 +36,11 @@ body{
     width: 300px;
     height: 200px;
 }
+#newPic{
+    width: 500px;
+    height: 200px;
+    background-color: azure;
+}
 @media screen and (max-width: 768px){
     #wrapper{
         flex-direction: column;
