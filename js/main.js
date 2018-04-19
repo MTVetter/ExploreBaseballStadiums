@@ -2,9 +2,6 @@
 
 //Add Leaflet map
 function createMap(){
-    //Hide the panel div until a point is clicked
-    // $('#panel').hide();
-
     //Set up the initial location of the map
     var initialLocation = [40, -98.5];
 
@@ -42,11 +39,11 @@ function createMap(){
     L.control.layers(baseLayers).addTo(map);
 
     //Create a popup for the info button
-    var infoPopup = L.popup({className: 'help'}).setContent("<p>Use the home button to return the initial extent of the map</p>" +
-    "<p>In the upper right hand corner, you can change the type of basemap being displayed</p>" +
-    "<p>Click on the arrow buttons to display the number of deposits for different years</p>" +
-    "<p>Source: https://www.kaggle.com/chasebank/bank-deposits/data</p>" +
-    "<p><a href='data/ChaseDeposits.csv' download>Click to download data source</a></p>");
+    var infoPopup = L.popup({className: 'help'}).setContent("<p>Click on the box next to the team names to filter the logos</p>" +
+    "<select id='team-select'><option value='Angels'>Angels</option>" +
+    "<option value='Astros'>Astros</option>"+"</select>" +
+    "<div style='text-align: center;'>"+"<button class='search' type='button'>Search</button>"+"</div>"+
+    "<p>Multiple team selection is supported</p>");
     
     //Create an info button so the user can get information about the map
     L.easyButton('<span class="fas fa-filter fa-lg"</span>', function(btn, map){
@@ -127,7 +124,7 @@ function getData(map){
         dataType: "json",
         success: function(response){
             //Create a Leaflet GeoJSON layer and add to map
-            L.geoJson(response, {
+            var featureLayer = L.geoJson(response, {
                 pointToLayer: function (feature, latlng){
                     return L.marker(latlng, {
                         icon: L.icon({
@@ -159,25 +156,36 @@ function getData(map){
                         //     .style("fill", "lightBlue");
                     });
                 }
-            }).addTo(map);
+            });
+            map.addLayer(featureLayer);
         }
     });
 };
 
 function createPopup(feature){
     //Function to create the graph in the popup
-    var prop = feature.properties.StadiumName;
-    var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
-    console.log(prop);
-    var popup = L.popup().setContent(this.div);
-    // layer.bindPopup(popup);
+    var prop = feature.properties;
+    var popup = L.popup().setContent(container);
     var data = [
-        {name:feature.properties.Team, value:feature.properties.TicketPrice}
+        {name:feature.properties.Team, value:feature.properties.Diamondbacks}
     ];
-    var margin = {top: 20, right: 30, bottom: 40, left: 55},
-        width = 250 - margin.left - margin.right,
-        height = 200 - margin.top - margin.bottom,
-        barHeight = height;
+    var container = d3.select("#graph");
+    console.log(data);
+    var circles = container.selectAll(".circles")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("class", "circles")
+        .attr("id", function(d){
+            return d.Team;
+        })
+        .attr("cx", function(d,i){
+            return 70 + (i*180);
+        })
+        .attr("cy", function(d){
+            return 450 -(d.Diamondbacks*10);
+            console.log(d.Diamondbacks);
+        });
 };
 
 //Hide the panel on initial loading of the application

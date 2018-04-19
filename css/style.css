@@ -23,14 +23,16 @@ body{
     width: 90%;
 }
 #stadium{
-    font-family: 'Times New Roman';
+    font-family: 'Rancho';
+    font-size: 35px;
     text-align: center;
     font-weight: bold;
 }
 #left{
     width: 90%;
     font-weight: bold;
-    font-family: 'Times New Roman';
+    font-family: 'Rancho';
+    font-size: 20px;
 }
 #graph{
     width: 300px;
@@ -46,8 +48,12 @@ body{
     transition-duration: 0.4s;
 }
 .button:hover{
-    background-color: darkviolet;
+    background-color: slategray;
     color: white;
+}
+#team, #year, #attendance, #time, #hr, #ticket{
+    font-family: 'Gudea';
+    font-size: 15px;
 }
 @media screen and (max-width: 768px){
     #wrapper{
