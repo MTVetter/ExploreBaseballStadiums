@@ -145,15 +145,86 @@ function getData(map){
                         $("#hr").text(feature.properties.HRperGame);
                         $("#ticket").text(feature.properties.TicketPrice);
                         document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
-                        // var div = $('<div class="graph" style="width: 200px; height: 200px;"><svg/></div>')[0];
-                        // var svg = d3.select(div)
-                        //     .select("svg")
-                        //     .attr("width", 200)
-                        //     .attr("height", 200);
-                        // svg.append("rect")
-                        //     .attr("width", 150)
-                        //     .attr("height", 150)
-                        //     .style("fill", "lightBlue");
+                        // var data = [
+                        //     {name:feature.properties.Team, value:feature.properties.Diamondbacks}
+                        // ];
+                        // var container = d3.select("#graph")
+                        //     .append("svg")
+                        //     .attr("width", 300)
+                        //     .attr("height", 200)
+                        //     .attr("class", "container")
+                        //     .style("background-color", "rgba(0,0,0,0.2)");
+                        // var innerRect = container.append("rect")
+                        //     .datum(200)
+                        //     .attr("width", function(d){
+                        //         return d;
+                        //     })
+                        //     .attr("height", function(d){
+                        //         return d - 59;
+                        //     })
+                        //     .attr("class", "innerRect")
+                        //     .attr("x", 50)
+                        //     .attr("y", 50)
+                        //     .style("fill", "#FFFFFF");
+                        // var minWin = d3.min(data, function(d){
+                        //     return d.value;
+                        // });
+                        // var maxWin = d3.max(data, function(d){
+                        //     return d.value;
+                        // });
+                        // var y = d3.scaleLinear()
+                        //     .range([190, 50])
+                        //     .domain([0,1]);
+                        // var x = d3.scaleLinear()
+                        //     .range([70, 180])
+                        //     .domain([0,3]);
+                        // var yAxis = d3.axisLeft(y)
+                        //     .scale(y);
+                        // var axis = container.append("g")
+                        //     .attr("class","axis")
+                        //     .attr("transform", "translate(50,0)")
+                        //     .call(yAxis);
+                        // var title = container.append("text")
+                        //     .attr("class", "title")
+                        //     .attr("text-anchor", "middle")
+                        //     .attr("x", 150)
+                        //     .attr("y", 30)
+                        //     .text("Winning Percentage");
+                        // var div = d3.select("#graph")
+                        //     .append("div")
+                        //     .attr("class", "tooltip")
+                        //     .style("opacity", 0);
+                        // var circles = container.selectAll(".circles")
+                        //     .data(data)
+                        //     .enter()
+                        //     .append("circle")
+                        //     .attr("class", "circles")
+                        //     .attr("id", function(d){
+                        //         return d.name;
+                        //     })
+                        //     .attr("r", function(d){
+                        //         var area = d.value * 200;
+                        //         return Math.sqrt(area/Math.PI);
+                        //     })
+                        //     .attr("cx", function(d,i){
+                        //         return x(i);
+                        //     })
+                        //     .attr("cy", function(d){
+                        //         return y(d.value)
+                        //     })
+                        //     .on("mouseover", function(d){
+                        //         div.transition()
+                        //             .duration(200)
+                        //             .style("opacity", 0.9);
+                        //         div.html(d.name + "<br/>" + "<p>Winning %: " + d.value +"</p>")
+                        //             .style("left", (d3.event.clientX) + "px")
+                        //             .style("top", (d3.event.clientY + 420) + "px");
+                        //     })
+                        //     .on("mouseout", function(d){
+                        //         div.transition()
+                        //             .duration(200)
+                        //             .style("opacity", 0);
+                        //     });
                     });
                 }
             });
@@ -166,25 +237,87 @@ function createPopup(feature){
     //Function to create the graph in the popup
     var prop = feature.properties;
     var popup = L.popup().setContent(container);
+    //var graphData = [];
     var data = [
         {name:feature.properties.Team, value:feature.properties.Diamondbacks}
     ];
-    var container = d3.select("#graph");
-    console.log(data);
+    //console.log(graphData);
+    var container = d3.select("#graph")
+        .append("svg")
+        .attr("width", 300)
+        .attr("height", 200)
+        .attr("class", "container")
+        .style("background-color", "rgba(0,0,0,0.2)");
+    var innerRect = container.append("rect")
+        .datum(200)
+        .attr("width", function(d){
+            return d;
+        })
+        .attr("height", function(d){
+            return d - 59;
+        })
+        .attr("class", "innerRect")
+        .attr("x", 50)
+        .attr("y", 50)
+        .style("fill", "#FFFFFF");
+    var minWin = d3.min(data, function(d){
+        return d.value;
+    });
+    var maxWin = d3.max(data, function(d){
+        return d.value;
+    });
+    var y = d3.scaleLinear()
+        .range([190, 50])
+        .domain([0,1]);
+    var x = d3.scaleLinear()
+        .range([70, 180])
+        .domain([0,3]);
+    var yAxis = d3.axisLeft(y)
+        .scale(y);
+    var axis = container.append("g")
+        .attr("class","axis")
+        .attr("transform", "translate(50,0)")
+        .call(yAxis);
+    var title = container.append("text")
+        .attr("class", "title")
+        .attr("text-anchor", "middle")
+        .attr("x", 150)
+        .attr("y", 30)
+        .text("Winning Percentage");
+    var div = d3.select("#graph")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
     var circles = container.selectAll(".circles")
         .data(data)
         .enter()
         .append("circle")
         .attr("class", "circles")
         .attr("id", function(d){
-            return d.Team;
+            return d.name;
+        })
+        .attr("r", function(d){
+            var area = d.value * 200;
+            return Math.sqrt(area/Math.PI);
         })
         .attr("cx", function(d,i){
-            return 70 + (i*180);
+            return x(i);
         })
         .attr("cy", function(d){
-            return 450 -(d.Diamondbacks*10);
-            console.log(d.Diamondbacks);
+            return y(d.value)
+        })
+        .on("mouseover", function(d){
+            div.transition()
+                .duration(200)
+                .style("opacity", 0.9);
+            div.html(d.name + "<br/>" + "<p>Winning %: " + d.value +"</p>")
+                .style("left", (d3.event.clientX) + "px")
+                .style("top", (d3.event.clientY + 420) + "px");
+        })
+        .on("mouseout", function(d){
+            div.transition()
+                .duration(200)
+                .style("opacity", 0);
         });
 };
 

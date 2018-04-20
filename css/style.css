@@ -55,6 +55,15 @@ body{
     font-family: 'Gudea';
     font-size: 15px;
 }
+.tooltip{
+    position: absolute;
+    height: 50px;
+    min-width: 100px;
+    color: #fff;
+    background-color: #000;
+    border: solid thin #fff;
+    padding: 5px 10px;
+}
 @media screen and (max-width: 768px){
     #wrapper{
         flex-direction: column;
