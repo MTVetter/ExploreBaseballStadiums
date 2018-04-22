@@ -2,6 +2,8 @@
 
 //Add Leaflet map
 function createMap(){
+    //Hide panel
+    $("#panel").hide();
     //Set up the initial location of the map
     var initialLocation = [40, -98.5];
 
@@ -16,7 +18,7 @@ function createMap(){
     zoomHome.addTo(map);
 
     //call getData function
-    //getData(map);
+    getData(map);
 
     //add CartoDB base tilelayer
     var CartoDB_Positron = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.jpg', {
@@ -162,104 +164,26 @@ function createMap(){
         }
     });
 
-    //Filter based on the checkboxes
-    $.ajax("data/stadiums.geojson", {
-        dataType:"json",
-        success: function(response){
-            var angels = L.geoJson(response,{
-                filter: function (feature, layer){
-                    return feature.properties.Team == "Angels"
-                },
-                pointToLayer: function (feature, latlng){
-                    return L.marker(latlng, {
-                        icon: L.icon({
-                            iconUrl: getIcon(feature.properties.Team),
-                            iconSize: [45, 45]
-                        })
-                    });
-                },
-                onEachFeature: function (feature, layer){
-                    layer.bindPopup(createPopup(feature));
-                    layer.on('click', function(e){
-                        $("#panel").show("slide");
-                        $("#stadium").text(feature.properties.StadiumName);
-                        $("#team").text(feature.properties.Team);
-                        $("#year").text(feature.properties.Built);
-                        $("#attendence").text(feature.properties.AttenanceperGame);
-                        $("#time").text(feature.properties.Time);
-                        $("#hr").text(feature.properties.HRperGame);
-                        $("#ticket").text(feature.properties.TicketPrice);
-                        document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
-                    });
-                }
-            });
-            
-            //checkbox event to show only certain teams
-            $(".angels").click(function(){
-                if (this.checked){
-                    console.log("checked!");
-                    angels.addTo(map);
-                    allTeams.removeFrom(map);
-                } else {
-                    console.log("unchecked");
-                    allTeams.addTo(map);
-                    angels.removeFrom(map);
-                };
-            })
+    //Search bar
+    var searchControl = new L.Control.Search({
+        layer: allTeams,
+        propertyName: "Team",
+        marker: false,
+        textPlaceholder: "Search Team Names",
+        moveToLocation: function(latlng, title, map){
+            var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+            map.setView(latlng, zoom);
         }
     });
 
-    $.ajax("data/stadiums.geojson", {
-        dataType:"json",
-        success: function(response){
-            var astros = L.geoJson(response,{
-                filter: function (feature, layer){
-                    return feature.properties.Team == "Astros"
-                },
-                pointToLayer: function (feature, latlng){
-                    return L.marker(latlng, {
-                        icon: L.icon({
-                            iconUrl: getIcon(feature.properties.Team),
-                            iconSize: [45, 45]
-                        })
-                    });
-                },
-                onEachFeature: function (feature, layer){
-                    layer.bindPopup(createPopup(feature));
-                    layer.on('click', function(e){
-                        $("#panel").show("slide");
-                        $("#stadium").text(feature.properties.StadiumName);
-                        $("#team").text(feature.properties.Team);
-                        $("#year").text(feature.properties.Built);
-                        $("#attendence").text(feature.properties.AttenanceperGame);
-                        $("#time").text(feature.properties.Time);
-                        $("#hr").text(feature.properties.HRperGame);
-                        $("#ticket").text(feature.properties.TicketPrice);
-                        document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
-                    });
-                }
-            });
-            
-            //checkbox event to show only certain teams
-            $(".astros").click(function(){
-                if (this.checked){
-                    console.log("checked!");
-                    astros.addTo(map);
-                    allTeams.removeFrom(map);
-                } else {
-                    console.log("unchecked");
-                    var anyChecked = $(".toolheader").is(":checked").length >0;
-                    console.log(anyChecked);
-                    if (anyChecked > 0){
-                        astros.removeFrom(map);
-                    }else {
-                        allTeams.addTo(map);
-                        astros.removeFrom(map);
-                    };
-                };
-            })
-        }
+    searchControl.on('search:locationfound', function(e){
+        e.layer.setStyle({color: '#ebff08', opacity: 0.5});
+    }).on('search:collapsed', function(e){
+        allTeams.eachLayer(function(layer){
+            allTeams.resetStyle(layer);
+        });
     });
+    map.addControl(searchControl);
 };
 
 //Function to determine the appropriate icon
@@ -329,120 +253,120 @@ function getIcon(team){
 
 
 //function to get the points
-// function getData(map){
-//     //Load the data through AJAX
-//     $.ajax("data/stadiums.geojson", {
-//         dataType: "json",
-//         success: function(response){
-//             //Create a Leaflet GeoJSON layer and add to map
-//             var featureLayer = L.geoJson(response, {
-//                 pointToLayer: function (feature, latlng){
-//                     return L.marker(latlng, {
-//                         icon: L.icon({
-//                             iconUrl: getIcon(feature.properties.Team),
-//                             iconSize: [45, 45]
-//                         })
-//                     });
-//                 },
-//                 onEachFeature: function (feature, layer){
-//                     layer.bindPopup(createPopup(feature));
-//                     layer.on('click', function(e){
-//                         $("#panel").show("slide");
-//                         $("#stadium").text(feature.properties.StadiumName);
-//                         $("#team").text(feature.properties.Team);
-//                         $("#year").text(feature.properties.Built);
-//                         $("#attendence").text(feature.properties.AttenanceperGame);
-//                         $("#time").text(feature.properties.Time);
-//                         $("#hr").text(feature.properties.HRperGame);
-//                         $("#ticket").text(feature.properties.TicketPrice);
-//                         document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
-//                         // var data = [
-//                         //     {name:feature.properties.Team, value:feature.properties.Diamondbacks}
-//                         // ];
-//                         // var container = d3.select("#graph")
-//                         //     .append("svg")
-//                         //     .attr("width", 300)
-//                         //     .attr("height", 200)
-//                         //     .attr("class", "container")
-//                         //     .style("background-color", "rgba(0,0,0,0.2)");
-//                         // var innerRect = container.append("rect")
-//                         //     .datum(200)
-//                         //     .attr("width", function(d){
-//                         //         return d;
-//                         //     })
-//                         //     .attr("height", function(d){
-//                         //         return d - 59;
-//                         //     })
-//                         //     .attr("class", "innerRect")
-//                         //     .attr("x", 50)
-//                         //     .attr("y", 50)
-//                         //     .style("fill", "#FFFFFF");
-//                         // var minWin = d3.min(data, function(d){
-//                         //     return d.value;
-//                         // });
-//                         // var maxWin = d3.max(data, function(d){
-//                         //     return d.value;
-//                         // });
-//                         // var y = d3.scaleLinear()
-//                         //     .range([190, 50])
-//                         //     .domain([0,1]);
-//                         // var x = d3.scaleLinear()
-//                         //     .range([70, 180])
-//                         //     .domain([0,3]);
-//                         // var yAxis = d3.axisLeft(y)
-//                         //     .scale(y);
-//                         // var axis = container.append("g")
-//                         //     .attr("class","axis")
-//                         //     .attr("transform", "translate(50,0)")
-//                         //     .call(yAxis);
-//                         // var title = container.append("text")
-//                         //     .attr("class", "title")
-//                         //     .attr("text-anchor", "middle")
-//                         //     .attr("x", 150)
-//                         //     .attr("y", 30)
-//                         //     .text("Winning Percentage");
-//                         // var div = d3.select("#graph")
-//                         //     .append("div")
-//                         //     .attr("class", "tooltip")
-//                         //     .style("opacity", 0);
-//                         // var circles = container.selectAll(".circles")
-//                         //     .data(data)
-//                         //     .enter()
-//                         //     .append("circle")
-//                         //     .attr("class", "circles")
-//                         //     .attr("id", function(d){
-//                         //         return d.name;
-//                         //     })
-//                         //     .attr("r", function(d){
-//                         //         var area = d.value * 200;
-//                         //         return Math.sqrt(area/Math.PI);
-//                         //     })
-//                         //     .attr("cx", function(d,i){
-//                         //         return x(i);
-//                         //     })
-//                         //     .attr("cy", function(d){
-//                         //         return y(d.value)
-//                         //     })
-//                         //     .on("mouseover", function(d){
-//                         //         div.transition()
-//                         //             .duration(200)
-//                         //             .style("opacity", 0.9);
-//                         //         div.html(d.name + "<br/>" + "<p>Winning %: " + d.value +"</p>")
-//                         //             .style("left", (d3.event.clientX) + "px")
-//                         //             .style("top", (d3.event.clientY + 420) + "px");
-//                         //     })
-//                         //     .on("mouseout", function(d){
-//                         //         div.transition()
-//                         //             .duration(200)
-//                         //             .style("opacity", 0);
-//                         //     });
-//                     });
-//                 }
-//             });
-//             map.addLayer(featureLayer);
-//         }
-//     });
-// };
+function getData(map){
+    //Load the data through AJAX
+    $.ajax("data/stadiums.geojson", {
+        dataType: "json",
+        success: function(response){
+            //Create a Leaflet GeoJSON layer and add to map
+            var featureLayer = L.geoJson(response, {
+                pointToLayer: function (feature, latlng){
+                    return L.marker(latlng, {
+                        icon: L.icon({
+                            iconUrl: getIcon(feature.properties.Team),
+                            iconSize: [45, 45]
+                        })
+                    });
+                },
+                onEachFeature: function (feature, layer){
+                    layer.bindPopup(createPopup(feature));
+                    layer.on('click', function(e){
+                        $("#panel").show("slide");
+                        $("#stadium").text(feature.properties.StadiumName);
+                        $("#team").text(feature.properties.Team);
+                        $("#year").text(feature.properties.Built);
+                        $("#attendence").text(feature.properties.AttenanceperGame);
+                        $("#time").text(feature.properties.Time);
+                        $("#hr").text(feature.properties.HRperGame);
+                        $("#ticket").text(feature.properties.TicketPrice);
+                        document.getElementById("newPic").innerHTML = '<img src=" ' + feature.properties.Photo + '">';
+                        // var data = [
+                        //     {name:feature.properties.Team, value:feature.properties.Diamondbacks}
+                        // ];
+                        // var container = d3.select("#graph")
+                        //     .append("svg")
+                        //     .attr("width", 300)
+                        //     .attr("height", 200)
+                        //     .attr("class", "container")
+                        //     .style("background-color", "rgba(0,0,0,0.2)");
+                        // var innerRect = container.append("rect")
+                        //     .datum(200)
+                        //     .attr("width", function(d){
+                        //         return d;
+                        //     })
+                        //     .attr("height", function(d){
+                        //         return d - 59;
+                        //     })
+                        //     .attr("class", "innerRect")
+                        //     .attr("x", 50)
+                        //     .attr("y", 50)
+                        //     .style("fill", "#FFFFFF");
+                        // var minWin = d3.min(data, function(d){
+                        //     return d.value;
+                        // });
+                        // var maxWin = d3.max(data, function(d){
+                        //     return d.value;
+                        // });
+                        // var y = d3.scaleLinear()
+                        //     .range([190, 50])
+                        //     .domain([0,1]);
+                        // var x = d3.scaleLinear()
+                        //     .range([70, 180])
+                        //     .domain([0,3]);
+                        // var yAxis = d3.axisLeft(y)
+                        //     .scale(y);
+                        // var axis = container.append("g")
+                        //     .attr("class","axis")
+                        //     .attr("transform", "translate(50,0)")
+                        //     .call(yAxis);
+                        // var title = container.append("text")
+                        //     .attr("class", "title")
+                        //     .attr("text-anchor", "middle")
+                        //     .attr("x", 150)
+                        //     .attr("y", 30)
+                        //     .text("Winning Percentage");
+                        // var div = d3.select("#graph")
+                        //     .append("div")
+                        //     .attr("class", "tooltip")
+                        //     .style("opacity", 0);
+                        // var circles = container.selectAll(".circles")
+                        //     .data(data)
+                        //     .enter()
+                        //     .append("circle")
+                        //     .attr("class", "circles")
+                        //     .attr("id", function(d){
+                        //         return d.name;
+                        //     })
+                        //     .attr("r", function(d){
+                        //         var area = d.value * 200;
+                        //         return Math.sqrt(area/Math.PI);
+                        //     })
+                        //     .attr("cx", function(d,i){
+                        //         return x(i);
+                        //     })
+                        //     .attr("cy", function(d){
+                        //         return y(d.value)
+                        //     })
+                        //     .on("mouseover", function(d){
+                        //         div.transition()
+                        //             .duration(200)
+                        //             .style("opacity", 0.9);
+                        //         div.html(d.name + "<br/>" + "<p>Winning %: " + d.value +"</p>")
+                        //             .style("left", (d3.event.clientX) + "px")
+                        //             .style("top", (d3.event.clientY + 420) + "px");
+                        //     })
+                        //     .on("mouseout", function(d){
+                        //         div.transition()
+                        //             .duration(200)
+                        //             .style("opacity", 0);
+                        //     });
+                    });
+                }
+            });
+            map.addLayer(featureLayer);
+        }
+    });
+};
 
 function createPopup(feature){
     //Function to create the graph in the popup
@@ -531,8 +455,6 @@ function createPopup(feature){
         });
 };
 
-//Hide the panel on initial loading of the application
-$("#panel").hide();
 
 //Close the panel after user is done looking at the information
 $(".button").on("click", function(e){
