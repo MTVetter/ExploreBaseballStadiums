@@ -19,12 +19,12 @@ body{
     flex: none;
 }
 #info{
-    padding-top: 100px;
     width: 90%;
+    text-align: center;
 }
 #stadium{
     font-family: 'Rancho';
-    font-size: 35px;
+    font-size: 50px;
     text-align: center;
     font-weight: bold;
 }
@@ -37,11 +37,11 @@ body{
 #graph{
     width: 300px;
     height: 200px;
+    align-content: center;
 }
 #newPic{
     width: 500px;
     height: 200px;
-    background-color: azure;
 }
 .button{
     -webkit-transition-duration: 0.4s;
@@ -63,6 +63,13 @@ body{
     background-color: #000;
     border: solid thin #fff;
     padding: 5px 10px;
+    font-family: 'Gudea';
+}
+.title{
+    font-family: 'Rancho';
+}
+.stadiumPic{
+    padding-left: 25px;
 }
 @media screen and (max-width: 768px){
     #wrapper{
