@@ -35,8 +35,8 @@ body{
     font-size: 20px;
 }
 #graph{
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 300px;
     align-content: center;
 }
 #newPic{
@@ -57,7 +57,7 @@ body{
 }
 .tooltip{
     position: absolute;
-    height: 50px;
+    height: 80px;
     min-width: 100px;
     color: #fff;
     background-color: #000;

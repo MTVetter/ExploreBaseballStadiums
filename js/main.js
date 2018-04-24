@@ -145,13 +145,41 @@ function getData(map){
                         $("#hr").text(feature.properties.HRperGame);
                         $("#ticket").text(feature.properties.TicketPrice);
                         document.getElementById("newPic").innerHTML = '<img class="stadiumPic" src=" ' + feature.properties.Photo + '">';
-                        //teamValue(feature);
                         var data = [
-                            {name:feature.properties.Team, value:stadiumValue(feature)}
+                            {name:'Diamondbacks', value:feature.properties.Diamondbacks},
+                            {name:'Braves', value:feature.properties.Braves},
+                            {name:'Orioles', value:feature.properties.Orioles},
+                            {name:'Red Sox', value:feature.properties.RedSox},
+                            {name:'Cubs', value:feature.properties.Cubs},
+                            {name:'White Sox', value:feature.properties.WhiteSox},
+                            {name:'Reds', value:feature.properties.Reds},
+                            {name:'Indians', value:feature.properties.Indians},
+                            {name:'Rockies', value:feature.properties.Rockies},
+                            {name:'Tigers', value:feature.properties.Tigers},
+                            {name:'Astros', value:feature.properties.Astros},
+                            {name:'Royals', value:feature.properties.Royals},
+                            {name:'Angels', value:feature.properties.Angels},
+                            {name:'Dodgers', value:feature.properties.Dodgers},
+                            {name:'Marlins', value:feature.properties.Marlins},
+                            {name:'Brewers', value:feature.properties.Brewers},
+                            {name:'Twins', value:feature.properties.Twins},
+                            {name:'Mets', value:feature.properties.Mets},
+                            {name:'Yankees', value:feature.properties.Yankees},
+                            {name:"A's", value:feature.properties.As},
+                            {name:'Phillies', value:feature.properties.Phillies},
+                            {name:'Pirates', value:feature.properties.Pirates},
+                            {name:'Padres', value:feature.properties.Padres},
+                            {name:'Mariners', value:feature.properties.Mariners},
+                            {name:'Giants', value:feature.properties.Giants},
+                            {name:'Cardinals', value:feature.properties.Cardinals},
+                            {name:'Rays', value:feature.properties.Rays},
+                            {name:'Rangers', value:feature.properties.Rangers},
+                            {name:'Blue Jays', value:feature.properties.BlueJays},
+                            {name:'Nationals', value:feature.properties.Nationals}
                         ];
                         var container = d3.select("#graph")
                             .append("svg")
-                            .attr("width", 300)
+                            .attr("width", 500)
                             .attr("height", 200)
                             .attr("class", "container")
                             .style("background-color", "rgba(0,0,0,0.2)");
@@ -177,8 +205,8 @@ function getData(map){
                             .range([190, 50])
                             .domain([0,1]);
                         var x = d3.scaleLinear()
-                            .range([70, 180])
-                            .domain([0,3]);
+                            .range([60, 120])
+                            .domain([0,10]);
                         var yAxis = d3.axisLeft(y)
                             .scale(y);
                         var axis = container.append("g")
@@ -204,8 +232,8 @@ function getData(map){
                                 return d.name;
                             })
                             .attr("r", function(d){
-                                var area = d.value * 200;
-                                return Math.sqrt(area/Math.PI);
+                                //var area = d.value * 200;
+                                return 3;
                             })
                             .attr("cx", function(d,i){
                                 return x(i);
@@ -217,7 +245,7 @@ function getData(map){
                                 div.transition()
                                     .duration(200)
                                     .style("opacity", 0.9);
-                                div.html(d.name + "<br/>" + "<p>Winning % at " + feature.properties.StadiumName + " : " + d.value +"</p>")
+                                div.html(d.name + "<br/>" + "<p>Winning % at " + "<br/>" + feature.properties.StadiumName + " : " + d.value +"</p>")
                                     .style("left", (d3.event.clientX) + "px")
                                     .style("top", (d3.event.clientY + 20) + "px");
                             })
@@ -233,169 +261,6 @@ function getData(map){
         }
     });
 };
-
-//Create a function to determine the stadium stats
-function stadiumValue(feature){
-    var stadiumName = feature.properties.Team;
-    // console.log(team);
-    if (stadiumName == 'Diamondbacks'){
-        return feature.properties.Diamondbacks;
-    } else if (stadiumName == 'Braves'){
-        return feature.properties.Braves;
-    } else if (stadiumName == 'Mariners'){
-        return feature.properties.Mariners;
-    } else if (stadiumName == 'Giants'){
-        return feature.properties.Giants;
-    } else if (stadiumName == 'As'){
-        return feature.properties.As;
-    } else if (stadiumName == 'Angels'){
-        return feature.properties.Angels;
-    } else if (stadiumName == 'Dodgers'){
-        return feature.properties.Dodgers;
-    } else if (stadiumName == 'Padres'){
-        return feature.properties.Padres;
-    } else if (stadiumName == 'Rockies'){
-        return feature.properties.Rockies;
-    } else if (stadiumName == 'Twins'){
-        return feature.properties.Twins;
-    } else if (stadiumName == 'Royals'){
-        return feature.properties.Royals;
-    } else if (stadiumName == 'Rangers'){
-        return feature.properties.Rangers;
-    } else if (stadiumName == 'Astros'){
-        return feature.properties.Astros;
-    } else if (stadiumName == 'Brewers'){
-        return feature.properties.Brewers;
-    } else if (stadiumName == 'Cubs'){
-        return feature.properties.Cubs;
-    } else if (stadiumName == 'White Sox'){
-        return feature.properties.WhiteSox;
-    } else if (stadiumName == 'Cardinals'){
-        return feature.properties.Cardinals;
-    } else if (stadiumName == 'Tigers'){
-        return feature.properties.Tigers;
-    } else if (stadiumName == 'Indians'){
-        return feature.properties.Indians;
-    } else if (stadiumName == 'Reds'){
-        return feature.properties.Reds;
-    } else if (stadiumName == 'Rays'){
-        return feature.properties.Rays;
-    } else if (stadiumName == 'Marlins'){
-        return feature.properties.Marlins;
-    } else if (stadiumName == 'Blue Jays'){
-        return feature.properties.BlueJays;
-    } else if (stadiumName == 'Pirates'){
-        return feature.properties.Pirates;
-    } else if (stadiumName == 'Red Sox'){
-        return feature.properties.RedSox;
-    } else if (stadiumName == 'Yankees'){
-        return feature.properties.Yankees;
-    } else if (stadiumName == 'Mets'){
-        return feature.properties.Mets;
-    } else if (stadiumName == 'Phillies'){
-        return feature.properties.Phillies;
-    } else if (stadiumName == 'Orioles'){
-        return feature.properties.Orioles;
-    } else if (stadiumName == 'Nationals'){
-        return feature.properties.Nationals;
-    }
-};
-
-//Create a function to get all the team names
-function teamValue(feature){
-    var teamName = feature.properties;
-    console.log(teamName);
-};
-
-// function createPopup(feature){
-//     //Function to create the graph in the popup
-//     var prop = feature.properties;
-//     var data = [];
-//     console.log(prop);
-    // var win = feature.properties.Diamondbacks;
-    // var data = [
-    //     {name:feature.properties.Team, value:feature.properties.Diamondbacks}
-    // ];
-    //console.log(graphData);
-    // var container = d3.select("#graph")
-    //     .append("svg")
-    //     .attr("width", 300)
-    //     .attr("height", 200)
-    //     .attr("class", "container")
-    //     .style("background-color", "rgba(0,0,0,0.2)");
-    // var innerRect = container.append("rect")
-    //     .datum(200)
-    //     .attr("width", function(d){
-    //         return d;
-    //     })
-    //     .attr("height", function(d){
-    //         return d - 59;
-    //     })
-    //     .attr("class", "innerRect")
-    //     .attr("x", 50)
-    //     .attr("y", 50)
-    //     .style("fill", "#FFFFFF");
-    // var minWin = d3.min(data, function(d){
-    //     return d.value;
-    // });
-    // var maxWin = d3.max(data, function(d){
-    //     return d.value;
-    // });
-    // var y = d3.scaleLinear()
-    //     .range([190, 50])
-    //     .domain([0,1]);
-    // var x = d3.scaleLinear()
-    //     .range([70, 180])
-    //     .domain([0,3]);
-    // var yAxis = d3.axisLeft(y)
-    //     .scale(y);
-    // var axis = container.append("g")
-    //     .attr("class","axis")
-    //     .attr("transform", "translate(50,0)")
-    //     .call(yAxis);
-    // var title = container.append("text")
-    //     .attr("class", "title")
-    //     .attr("text-anchor", "middle")
-    //     .attr("x", 150)
-    //     .attr("y", 30)
-    //     .text("Winning Percentage");
-    // var div = d3.select("#graph")
-    //     .append("div")
-    //     .attr("class", "tooltip")
-    //     .style("opacity", 0);
-    // var circles = container.selectAll(".circles")
-    //     .data(data)
-    //     .enter()
-    //     .append("circle")
-    //     .attr("class", "circles")
-    //     .attr("id", function(d){
-    //         return d.name;
-    //     })
-    //     .attr("r", function(d){
-    //         var area = d.value * 200;
-    //         return Math.sqrt(area/Math.PI);
-    //     })
-    //     .attr("cx", function(d,i){
-    //         return x(i);
-    //     })
-    //     .attr("cy", function(d){
-    //         return y(d.value)
-    //     })
-    //     .on("mouseover", function(d){
-    //         div.transition()
-    //             .duration(200)
-    //             .style("opacity", 0.9);
-    //         div.html(d.name + "<br/>" + "<p>Winning %: " + d.value +"</p>")
-    //             .style("left", (d3.event.clientX) + "px")
-    //             .style("top", (d3.event.clientY + 420) + "px");
-    //     })
-    //     .on("mouseout", function(d){
-    //         div.transition()
-    //             .duration(200)
-    //             .style("opacity", 0);
-    //     });
-//};
-
 
 //Close the panel after user is done looking at the information
 $(".button").on("click", function(e){
