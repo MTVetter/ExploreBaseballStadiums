@@ -15,7 +15,6 @@ body{
     flex: 2 1 auto;
 }
 #panel{
-    background-color: green;
     flex: none;
 }
 #info{
@@ -55,6 +54,22 @@ body{
     font-family: 'Gudea';
     font-size: 15px;
 }
+p.description{
+    font-family: 'Gudea';
+    font-size: 18px;
+}
+p.begin{
+    font-family: 'Gudea';
+    font-size: 15px;
+}
+p.note{
+    font-family: 'Gudea';
+    font-size: 10px;
+}
+h1{
+    font-family: 'Rancho';
+    font-size: 40px;
+}
 .tooltip{
     position: absolute;
     height: 80px;
@@ -62,7 +77,7 @@ body{
     color: #fff;
     background-color: #000;
     border: solid thin #fff;
-    padding: 5px 10px;
+    padding: 5px;
     font-family: 'Gudea';
 }
 .title{
@@ -70,6 +85,31 @@ body{
 }
 .stadiumPic{
     padding-left: 25px;
+}
+#welcomePanel {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-65%);
+	width: 40%;
+}
+
+.info {
+	padding: 2vh 2vw;
+	font: 16px, sans-Serif;
+	background: rgba(255,255,255,0.9);
+	box-shadow: 0 0 15px rgba(37,37,37,0.4);
+	border-radius: 5px;
+	text-align: center;
+}
+
+.leaflet-popup-content p{
+    margin: 0.2px 0;
+}
+
+.help .leaflet-popup-content-wrapper{
+    background: rgb(188, 179, 197);
+    height: 250px;
 }
 @media screen and (max-width: 768px){
     #wrapper{
