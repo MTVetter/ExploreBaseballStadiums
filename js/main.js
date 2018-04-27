@@ -50,20 +50,6 @@ function createMap(){
         infoPopup.setLatLng(map.getCenter()).openOn(map);
     }).addTo(map);
 
-    // var searchControl = new L.Control.Search(
-    //     {layer: featureLayer,
-    //     propertyName: 'Team',
-    //     circleLocation: false});
-    // searchControl.on('search_locationfound', function(e){
-    //     e.layer.setStyle({fillColor: 'white', color: 'white', fillOpacity: 0.5});
-    //     if (e.layer._popup)
-    //         e.layer.openPopup();
-    // }).on('search_collapsed', function(e){
-    //     featureLayer.eachLayer(function(layer){
-    //         featureLayer.resetStyle(layer);
-    //     });
-    // });
-    // map.addControl(searchControl);
     $(document).click(function (){
         $("#welcomePanel").hide();
     });
@@ -126,10 +112,9 @@ function search(data, map){
                 ];
                 var container = d3.select("#graph")
                     .append("svg")
-                    .attr("width", 500)
+                    .attr("width", 300)
                     .attr("height", 200)
-                    .attr("class", "container")
-                    .style("background-color", "rgba(0,0,0,0.2)");
+                    .attr("class", "container");
                 var innerRect = container.append("rect")
                     .datum(200)
                     .attr("width", function(d){
@@ -165,7 +150,7 @@ function search(data, map){
                     .attr("text-anchor", "middle")
                     .attr("x", 150)
                     .attr("y", 30)
-                    .text("Winning Percentage");
+                    .text("Winning Percentage at  " + feature.properties.StadiumName);
                 var div = d3.select("#graph")
                     .append("div")
                     .attr("class", "tooltip")
@@ -192,9 +177,9 @@ function search(data, map){
                         div.transition()
                             .duration(100)
                             .style("opacity", 0.9);
-                        div.html(d.name + "<br/>" + "<p>Winning % at " + "<br/>" + feature.properties.StadiumName + " : " + d.value +"</p>")
-                            .style("left", (d3.event.clientX) + "px")
-                            .style("top", (d3.event.clientY + 20) + "px");
+                        div.html(d.name + "<br/>" + d.value)
+                            .style("left", (d3.event.clientX + 10) + "px")
+                            .style("top", (d3.event.clientY - 50) + "px");
                     })
                     .on("mouseout", function(d){
                         div.transition()

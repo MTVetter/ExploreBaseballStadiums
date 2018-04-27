@@ -16,6 +16,7 @@ body{
 }
 #panel{
     flex: none;
+    background-color: gainsboro;
 }
 #info{
     width: 90%;
@@ -28,15 +29,16 @@ body{
     font-weight: bold;
 }
 #left{
-    width: 90%;
+    width: 85%;
     font-weight: bold;
     font-family: 'Rancho';
     font-size: 20px;
 }
 #graph{
-    width: 500px;
-    height: 300px;
+    width: 300px;
+    height: 200px;
     align-content: center;
+    padding-left: 50px;
 }
 #newPic{
     width: 500px;
@@ -72,7 +74,7 @@ h1{
 }
 .tooltip{
     position: absolute;
-    height: 80px;
+    height: 35px;
     min-width: 100px;
     color: #fff;
     background-color: #000;
