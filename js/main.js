@@ -41,12 +41,17 @@ function createMap(){
     L.control.layers(baseLayers).addTo(map);
 
     //Create a popup for the info button
-    var infoPopup = L.popup({className: 'help'}).setContent("<p>Click on the box next to the team names to filter the logos</p>" +
-    "<div style='text-align: center;'>"+"<button class='search' type='button'>Search</button>"+"</div>"+
-    "<p>Multiple team selection is supported</p>");
+    var infoPopup = L.popup({className: 'help'}).setContent("<h3>How to operate the map:</h3>" + 
+    "<p>Use <img align='middle' src='img/zoomInTest.jpg'> to zoom in</p>"+
+    "<p>Use <img align='middle' src='img/zoomOutTest.jpg'> to zoom out</p>"+
+    "<p>Use <img align='middle' src='img/homeTest.jpg'> to return to the inital extent of the map</p>"+
+    "<p>Use <img align='middle' src='img/basemapTest.jpg'> to switch from a gray basemap to an imagery basemap</p>"+
+    "<p>Clicking on <img align='middle' src='img/searchTest.jpg'> expands the search option</p>"+
+    "<p>Search based on team name</p>"+
+    "<p>Teams will display based on what you type. Example:<img align='middle' src='img/searchTypedTest.jpg'></p>");
     
     //Create an info button so the user can get information about the map
-    L.easyButton('<span class="fas fa-filter fa-lg"</span>', function(btn, map){
+    L.easyButton('<span class="fas fa-info-circle fa-lg"</span>', function(btn, map){
         infoPopup.setLatLng(map.getCenter()).openOn(map);
     }).addTo(map);
 

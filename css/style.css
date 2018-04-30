@@ -52,7 +52,7 @@ body{
     background-color: slategray;
     color: white;
 }
-#team, #year, #attendance, #time, #hr, #ticket{
+#team, #year, #attendance, #time, #hr, #ticket, p{
     font-family: 'Gudea';
     font-size: 15px;
 }
@@ -71,6 +71,10 @@ p.note{
 h1{
     font-family: 'Rancho';
     font-size: 40px;
+}
+h3{
+    font-family: 'Rancho';
+    font-size: 20px;
 }
 .tooltip{
     position: absolute;
@@ -95,7 +99,6 @@ h1{
 	transform: translate(-50%,-65%);
 	width: 40%;
 }
-
 .info {
 	padding: 2vh 2vw;
 	font: 16px, sans-Serif;
@@ -104,14 +107,17 @@ h1{
 	border-radius: 5px;
 	text-align: center;
 }
-
 .leaflet-popup-content p{
     margin: 0.2px 0;
 }
-
 .help .leaflet-popup-content-wrapper{
-    background: rgb(188, 179, 197);
-    height: 250px;
+    background: gainsboro;
+    height: 550px;
+    width: 350px;
+    top: 50%;
+}
+.leaflet-popup-tip-container{
+    display: none;
 }
 @media screen and (max-width: 768px){
     #wrapper{
