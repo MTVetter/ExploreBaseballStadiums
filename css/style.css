@@ -112,9 +112,8 @@ h3{
 }
 .help .leaflet-popup-content-wrapper{
     background: gainsboro;
-    height: 550px;
+    height: 650px;
     width: 350px;
-    top: 50%;
 }
 .leaflet-popup-tip-container{
     display: none;
