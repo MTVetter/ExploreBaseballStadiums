@@ -41,7 +41,7 @@ function createMap(){
     L.control.layers(baseLayers).addTo(map);
 
     //Create a popup for the info button
-    var infoPopup = L.popup({className: 'help'}).setContent("<h3>How to operate the map:</h3>" + 
+    var infoPopup = L.popup({maxHeight: '300', className: 'help'}).setContent("<h3>How to operate the map:</h3>" + 
     "<ul><li><p>Use <img align='middle' src='img/zoomInTest.jpg'> to zoom in</p></li>"+
     "<li><p>Use <img align='middle' src='img/zoomOutTest.jpg'> to zoom out</p></li>"+
     "<li><p>Use <img align='middle' src='img/homeTest.jpg'> to return to the inital extent of the map</p></li>"+
@@ -49,14 +49,14 @@ function createMap(){
     "<li><p>Clicking on <img align='middle' src='img/searchTest.jpg'> expands the search option</p></li>"+
     "<li><p>Search based on team name</p></li>"+
     "<li><p>Teams will display based on what you type.</li> <li>Example:<img align='middle' src='img/searchTypedTest.jpg'></p></li>");
-
-    var infoLocation = [30, -98.5];
     
     //Create an info button so the user can get information about the map
     L.easyButton('<span class="fas fa-info-circle fa-lg"</span>', function(btn, map){
-        infoPopup.setLatLng(infoLocation).openOn(map);
+        infoPopup.setLatLng(map.getCenter()).openOn(map);
+        console.log(infoPopup);
     }).addTo(map);
-
+    
+    //Remove the welcome splash screen when the user clicks anywhere in the document
     $(document).click(function (){
         $("#welcomePanel").hide();
     });
@@ -74,7 +74,6 @@ function search(data, map){
             });
         },
         onEachFeature: function (feature, layer){
-            //layer.bindPopup(createPopup(feature));
             layer.on('click', function(e){
                 $("#panel").show("slide");
                 $("#stadium").text(feature.properties.StadiumName);
