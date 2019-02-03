@@ -76,6 +76,7 @@ function search(data, map){
         onEachFeature: function (feature, layer){
             layer.on('click', function(e){
                 $("#panel").show("slide");
+                $("#graph").html("");
                 $("#stadium").text(feature.properties.StadiumName);
                 $("#team").text(feature.properties.Team);
                 $("#year").text(feature.properties.Built);
